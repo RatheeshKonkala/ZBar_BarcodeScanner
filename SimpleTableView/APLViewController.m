@@ -155,7 +155,6 @@
         
         if (sqlite3_prepare_v2(_barcodesDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            
             if (sqlite3_step(statement) == SQLITE_ROW)
                 
             {
