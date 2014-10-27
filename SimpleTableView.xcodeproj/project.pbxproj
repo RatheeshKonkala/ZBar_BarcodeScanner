@@ -263,6 +263,11 @@
 				TargetAttributes = {
 					28A03BF1171109C600EAB3E2 = {
 						DevelopmentTeam = 83AWDZ97GW;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};

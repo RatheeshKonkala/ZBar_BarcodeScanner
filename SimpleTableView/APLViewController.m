@@ -60,9 +60,10 @@
         {
             char *errMsg;
             
-            const char *sql_stmt = "CREATE TABLE IF NOT EXISTS ScannedItems (Barcode PRIMARY KEY TEXT, Value INTEGER)";
+            const char *createSQL = "CREATE TABLE IF NOT EXISTS SCANNEDITEMS_LIST"
+            "(barcodeID TEXT PRIMARY KEY,numberoftimes_scanned TEXT)";
             
-            if (sqlite3_exec(_barcodesDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
+            if (sqlite3_exec(_barcodesDB, createSQL, NULL, NULL, &errMsg) != SQLITE_OK)
             {
                 NSLog(@"Failed to create table");
             }
@@ -149,7 +150,7 @@
     
     if (sqlite3_open(dbpath, &_barcodesDB) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"Select Barcode, Value from ScannedItems where Barcode=\"%@\" ",itemBarcode];
+        NSString *querySQL = [NSString stringWithFormat:@"Select barcodeID, numberoftimes_scanned from SCANNEDITEMS_LIST where barcodeID=\"%@\" ",itemBarcode];
         
         const char *query_stmt = [querySQL UTF8String];
         
@@ -161,7 +162,7 @@
             //Update Existing data
             NSLog(@"Existing data, Update please ");
             
-            NSString *updateSQL = [NSString stringWithFormat:@"UPDATE ScannedItems set Value = '%d' WHERE Barcode = ?", ++scanned];
+            NSString *updateSQL = [NSString stringWithFormat:@"UPDATE SCANNEDITEMS_LIST set numberoftimes_scanned = '%d' WHERE barcodeID = ?", ++scanned];
             
             const char *update_stmt = [updateSQL UTF8String];
             
@@ -182,7 +183,7 @@
             NSLog(@"New data, Insert Please");
             
             NSString *insertSQL = [NSString stringWithFormat:
-                                   @"INSERT INTO ScannedItems (barcode, value) VALUES (\"%@\", \"%d\")", itemBarcode, scanned];
+                                   @"INSERT INTO SCANNEDITEMS_LIST (barcodeID, numberoftimes_scanned) VALUES (\"%@\", \"%d\")", itemBarcode, scanned];
             
             const char *insert_stmt = [insertSQL UTF8String];
             
